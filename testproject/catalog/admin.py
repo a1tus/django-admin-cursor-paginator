@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from admin_cursor_paginator.admin import CursorPaginatorAdmin
+from admin_cursor_paginator import CursorPaginatorAdmin
 
 from .models import Product
 
 
 @admin.register(Product)
-class ProductAdmin(CursorPaginatorAdmin, admin.ModelAdmin):
+class ProductAdmin(CursorPaginatorAdmin):
     cursor_ordering_field = '-pk'
     list_display = ['id', 'name', 'created_at_iso']
     list_display_links = ['name']
