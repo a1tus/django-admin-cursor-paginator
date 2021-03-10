@@ -80,8 +80,8 @@ run `./manage.py runserver`, login as admin:admin to django admin and open `Prod
 Project includes sqlite3 file with some test data and preinstalled `debug_toolbar`
 to observe db queries.
 
-You will get something like that:
+You can play with ordering field or data amount or may be test it in your target db.
+
+Example of how pagination will look like:
 
 ![](assets/testproject-example.png)
-
-After that you can play with ordering field or data amount or may be test it in your target db.
