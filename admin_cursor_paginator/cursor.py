@@ -40,6 +40,23 @@ def decode_value(val):
     if not val:
         raise ValueError
     try:
-        return datetime.fromisoformat(val)
+        return _decode_datetime(val)
     except ValueError:
         return val
+
+
+def _decode_datetime(val):
+    try:
+        return datetime.fromisoformat(val)
+    except AttributeError:
+        pass
+
+    # back compat for python versions prior to 3.7
+    # (they don't have `fromisoformat` method)
+    from django.utils.dateparse import parse_datetime
+
+    res = parse_datetime(val)
+    if res:
+        return res
+
+    raise ValueError
