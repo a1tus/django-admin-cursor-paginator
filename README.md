@@ -9,7 +9,15 @@ Drop-in replacement for django admin default pagination that works fast with hug
 - Some of your models/tables contains so much data that list page lags
 - You don't want to make separate CRM page for them and just need fast and simple solution
 - You're ok that you won't see total objects or pages count and will navigate only by +-1 page
-- Index must be created for the ordering field (default integer pks work out-of-box)
+- Index must be created for the ordering field, otherwise you won't get any significant speedup
+  (default integer pks work perfectly out-of-box)
+- Ordering field type can be almost anything that can be "encoded" via `str()`
+  and then be used in `queryset.filter()`
+
+> **NOTE**  
+If ordering field is not unique then pagination can mess a bit in edge cases.
+But for the most often case with datetime fields with milliseconds like `created_at` it won't be a problem.
+It can be solved in future by adding support for multiple ordering fields.
 
 
 ## Installation
@@ -44,6 +52,9 @@ from admin_cursor_paginator import CursorPaginatorAdmin
 
 class YourModelAdmin(CursorPaginatorAdmin):
     cursor_ordering_field = '-created_at'  # default is '-pk'
+
+class AnotherModelAdmin(CursorPaginatorAdmin):
+    cursor_ordering_field = 'parent__sort'  # joins are supported as well
 ```
 
 
