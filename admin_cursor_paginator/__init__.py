@@ -1,1 +1,1 @@
-from .admin import CursorPaginatorAdmin  # noqa: F403
+#from .admin import CursorPaginatorAdmin  # noqa: F403
