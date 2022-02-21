@@ -96,3 +96,8 @@ class AdminCursorPage(collections.abc.Sequence):
 
     def __repr__(self):
         return '<Page starting from [%s]>' % (repr(self.object_list[0]) if self.object_list else None)
+
+    def has_other_pages(self, *args, **kwarg):
+        if self.next_cursor is not None:
+            return True
+        return False
