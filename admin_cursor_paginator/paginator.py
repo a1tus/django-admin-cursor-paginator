@@ -88,11 +88,20 @@ class AdminCursorPage(collections.abc.Sequence):
         self.prev_cursor = prev_cursor
         self.next_cursor = next_cursor
 
+    def __repr__(self):
+        return '<Page starting from [%s]>' % (repr(self.object_list[0]) if self.object_list else None)
+
     def __len__(self):
         return len(self.object_list)
 
     def __getitem__(self, key):
         return self.object_list.__getitem__(key)
 
-    def __repr__(self):
-        return '<Page starting from [%s]>' % (repr(self.object_list[0]) if self.object_list else None)
+    def has_next(self):
+        return self.next_cursor is not None
+
+    def has_previous(self):
+        return self.number > 1
+
+    def has_other_pages(self):
+        return self.has_previous() or self.has_next()
