@@ -15,9 +15,9 @@ Drop-in replacement for django admin default pagination that works fast with hug
   and then be used in `queryset.filter()`
 
 > **NOTE**  
-If ordering field is not unique then pagination can mess a bit in edge cases.
-But for the most often case with datetime fields with milliseconds like `created_at` it won't be a problem.
-It can be solved in future by adding support for multiple ordering fields.
+> If ordering field is not unique then pagination can mess a bit in edge cases.
+> But for the most often case with datetime fields with milliseconds like `created_at` it won't be a problem.
+> It can be solved in future by adding support for multiple ordering fields.
 
 
 ## Installation
@@ -38,6 +38,14 @@ INSTALLED_APPS = [
     # ...
 ]
 ```
+
+> **NOTE**  
+> This app overrides `{% block pagination %}` in default `change_list.html`
+> to insert custom pagination template tag, so if you use patched `change_list.html` too,
+> don't forget to copy pagination block or (seems better) to inherit this app tpl like
+> `{% extends 'admin_cursor_paginator/change_list.html' %}`.
+>
+> Also, there's a known [issue with grapelli](https://github.com/a1tus/django-admin-cursor-paginator/issues/4) that is fixed the same way. 
 
 
 ## Usage example
