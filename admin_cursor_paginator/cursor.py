@@ -5,18 +5,18 @@ from datetime import datetime
 
 Cursor = namedtuple('Cursor', ['value', 'is_reverse', 'number'])
 
-delimiter = '|||'
+_delimiter = '|||'
 
 
 def encode_cursor(cursor):
     parts = [encode_value(x) for x in cursor]
-    return b64encode(delimiter.join(parts).encode('utf8')).decode('ascii')
+    return b64encode(_delimiter.join(parts).encode('utf8')).decode('ascii')
 
 
 def decode_cursor(encoded_cursor):
     try:
         cursor_str = b64decode(encoded_cursor.encode('ascii')).decode('utf8')
-        parts = cursor_str.split(delimiter)
+        parts = cursor_str.split(_delimiter)
         return Cursor(
             value=decode_value(parts[0]),
             is_reverse=bool(parts[1]),
@@ -29,7 +29,7 @@ def decode_cursor(encoded_cursor):
 def encode_value(val):
     if not val:
         return ''
-    # datetime.__str__ applies `isoformat()` under the hood
+    # datetime.__str__ applies `isoformat()` under the hood,
     # but we do this explicitly for the sake of clarity
     if isinstance(val, datetime):
         return val.isoformat()
