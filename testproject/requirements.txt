@@ -1,3 +1,3 @@
-django==4.1.*
-django-debug-toolbar==3.6.*
-django-admin-cursor-paginator==0.1.3
+django==4.2.*
+django-debug-toolbar==4.1.*
+django-admin-cursor-paginator==0.1.4
