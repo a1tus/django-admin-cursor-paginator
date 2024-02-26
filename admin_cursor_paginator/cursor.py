@@ -40,7 +40,7 @@ def decode_value(val):
     if not val:
         raise ValueError
     try:
-        return _decode_datetime(val)
+        return val if val.isnumeric() else _decode_datetime(val)
     except ValueError:
         return val
 
