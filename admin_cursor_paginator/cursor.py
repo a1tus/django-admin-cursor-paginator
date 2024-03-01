@@ -1,6 +1,6 @@
 from base64 import b64decode, b64encode
 from collections import namedtuple
-from datetime import datetime
+from datetime import date, datetime
 
 
 Cursor = namedtuple('Cursor', ['value', 'is_reverse', 'number'])
@@ -31,7 +31,7 @@ def encode_value(val):
         return ''
     # datetime.__str__ applies `isoformat()` under the hood,
     # but we do this explicitly for the sake of clarity
-    if isinstance(val, datetime):
+    if isinstance(val, (date, datetime)):
         return val.isoformat()
     return str(val)
 
@@ -46,6 +46,12 @@ def decode_value(val):
 
 
 def _decode_datetime(val):
+    # since python 3.11 `fromisoformat` method successfully parses strings like "20001122"
+    # into datetime objects, which messes up simple int ids, so we explicitly discard them,
+    # see: https://docs.python.org/3/library/datetime.html#datetime.datetime.fromisoformat
+    if val.isdigit():
+        raise ValueError
+
     try:
         return datetime.fromisoformat(val)
     except AttributeError:
